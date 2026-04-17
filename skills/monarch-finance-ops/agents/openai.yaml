@@ -1,0 +1,4 @@
+interface:
+  display_name: "Monarch Finance Ops"
+  short_description: "Safe Monarch finance operations"
+  default_prompt: "Use $monarch-finance-ops to analyze or safely manage Monarch transactions, budgets, cash flow, accounts, and related financial data with the CLI in this repository."

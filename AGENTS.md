@@ -20,6 +20,8 @@ This repository contains an installable CLI for the published `monarch-api` Pyth
   - `summaries.py`: summarized output shaping
   - `runtime.py`: session handling, JSON loading, console helpers
   - `style.py`: help formatting and colorized output
+- `skills/`
+  - repo-local agent skills for recurring Monarch analysis and operations workflows
 - `tests/`
   - payload-building and CLI-focused tests
 
@@ -42,7 +44,6 @@ This repository contains an installable CLI for the published `monarch-api` Pyth
 
 - The PyPI distribution name is `monarch-api-cli`.
 - The installed console command is `monarch`.
-- Add real `[project.urls]` metadata in `pyproject.toml` once the public GitHub repo exists.
 - Keep GitHub releases and PyPI releases aligned by version tag.
 
 ## Style

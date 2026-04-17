@@ -63,6 +63,12 @@ python -m build
 python -m twine check dist/*
 ```
 
+## AI Skills
+
+Repo-local agent skills live under `skills/`.
+
+- `skills/monarch-finance-ops/` provides a reusable skill for analyzing, reconciling, budgeting, and safely managing Monarch financial data through this CLI.
+
 ## Release
 
 This project publishes the PyPI distribution `monarch-api-cli` and installs the console command `monarch`.
