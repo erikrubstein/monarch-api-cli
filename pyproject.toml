@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "monarch-api-cli"
+version = "0.1.0"
+description = "Installable CLI for the unofficial monarch-api Python client."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["monarch", "monarch money", "cli", "finance"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: End Users/Desktop",
+  "Intended Audience :: Developers",
+  "Environment :: Console",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Office/Business :: Financial",
+  "Topic :: Utilities",
+]
+dependencies = [
+  "monarch-api>=0.1.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/erikrubstein/monarch-api-cli"
+Homepage = "https://github.com/erikrubstein/monarch-api-cli"
+Issues = "https://github.com/erikrubstein/monarch-api-cli/issues"
+Repository = "https://github.com/erikrubstein/monarch-api-cli"
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2,<2",
+  "pytest>=8.0,<9",
+  "twine>=6.0,<7",
+]
+
+[project.scripts]
+monarch = "monarch_cli.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
