@@ -2,25 +2,12 @@
 
 Installable command-line interface for the published [`monarch-api`](https://pypi.org/project/monarch-api/) Python client.
 
-This repository is intended to become the public home of the CLI. The repository name and PyPI distribution name are both `monarch-api-cli`, while the installed command is simply `monarch`.
-
-The package is organized as a real `src/` application now:
-
-- `src/monarch_cli/` contains the maintained CLI implementation.
-- `tests/` covers payload-building behavior.
+The package stays close to the current Monarch surface instead of adding a second abstraction layer on top of the API client. Commands are organized by domain and generally map one read or mutation workflow to one CLI command.
 
 ## Install
 
-From PyPI, the intended distribution name is:
-
 ```bash
 pip install monarch-api-cli
-```
-
-With `pipx`:
-
-```bash
-pipx install monarch-api-cli
 ```
 
 For local development:
@@ -29,74 +16,177 @@ For local development:
 pip install -e .[dev]
 ```
 
-## Usage
-
-The primary console command is `monarch`:
+## Example
 
 ```bash
-monarch --help
-monarch --help all
+monarch auth login
 monarch household preferences
-monarch transactions create --help
+monarch accounts page
+monarch transactions list --limit 10
+monarch reports cash-flow-dashboard --start-date 2026-04-01 --end-date 2026-04-16
 ```
-
-The saved session is stored at:
-
-```text
-~/.monarch-api-cli/monarch_session.json
-```
-
-Older sessions from `~/.monarch-cli/monarch_session.json` are still accepted and migrated forward on use.
 
 ## Notes
 
-- `monarch-api` remains the underlying Python client, imported as `monarch_api`.
-- `monarch-api-cli` is the public repository and PyPI distribution for the CLI.
-- The installed command remains `monarch`.
+- Built on top of `monarch-api`, which remains the underlying Python client.
+- Installed console command is `monarch`.
+- Defaults to summarized output; use `--details` for raw payloads.
+- Saves session state at `~/.monarch-api-cli/monarch_session.json`.
+- Still accepts the legacy session path `~/.monarch-cli/monarch_session.json`.
 
-## Development
+## Implemented Surface
 
-```bash
-pip install -e .[dev]
-python -m pytest
-python -m build
-python -m twine check dist/*
-```
+### `auth`
 
-## AI Skills
+- `login`
+- `use-token`
+- `me`
+- `clear-session`
 
-Repo-local agent skills live under `skills/`.
+### `household`
 
-- `skills/monarch-finance-ops/` provides a reusable skill for analyzing, reconciling, budgeting, and safely managing Monarch financial data through this CLI.
+- `get`
+- `members`
+- `preferences`
 
-## Release
+### `accounts`
 
-This project publishes the PyPI distribution `monarch-api-cli` and installs the console command `monarch`.
+- `has-accounts`
+- `syncing`
+- `notices`
+- `page`
+- `recent-balances`
+- `filtered`
+- `aggregate-snapshots`
+- `display-balance`
+- `snapshots-by-account-type`
+- `filters`
+- `account-types`
+- `refresh-status`
+- `latest-refresh`
+- `refresh-operation`
+- `refresh-account`
+- `refresh-all`
+- `institution-settings`
+- `institutions`
+- `institution`
 
-Before the first public release:
+### `subscription`
 
-1. Create the `monarch-api-cli` project on PyPI if it does not already exist.
-2. Configure PyPI Trusted Publishing for this repository.
+- `details`
+- `get`
+- `modal`
+- `premium-upgrade-plans`
+- `trial-status`
+- `entitlements`
+- `feature-entitlement-params`
+- `plus-tier-access`
+- `gifted-subscriptions`
+- `referral-settings`
 
-For each release:
+### `settings`
 
-1. Update `version` in `pyproject.toml`.
-2. Run verification:
+- `user-profile-flags`
+- `dashboard-config`
+- `sidebar-data`
+- `household-member-settings`
+- `security`
+- `notification-preferences`
+- `review-summary-by-user`
+- `business-entities-banner-profile`
+- `business-entities`
+- `has-activity`
+- `oldest-deletable-synced-snapshot-date`
+- `oldest-deletable-transaction-date`
 
-```bash
-python -m pip install -e .[dev]
-python -m pytest
-python -m build
-python -m twine check dist/*
-```
+### `planning`
 
-3. Commit the release changes.
-4. Tag and push the release:
+- `budget-data`
+- `joint-data`
 
-```bash
-git tag v0.1.0
-git push origin main --tags
-```
+### `goals`
 
-5. Create a GitHub release for the tag.
-6. The `Publish To PyPI` workflow will publish automatically if Trusted Publishing is configured.
+- `savings-goals`
+- `savings-goals-balances`
+- `savings-goal-account`
+- `dashboard-card`
+- `legacy-migration`
+
+### `recurring`
+
+- `streams`
+- `aggregated-items`
+- `dashboard-upcoming`
+- `paused-banner`
+
+### `investments`
+
+- `accounts`
+- `dashboard-card`
+- `portfolio`
+- `security-history`
+
+### `transactions`
+
+- `list`
+- `get`
+- `filters`
+- `filters-metadata`
+- `create`
+- `update`
+- `delete`
+- `set-tags`
+- `tags`
+- `categories`
+
+### `merchants`
+
+- `search`
+- `household`
+- `recommended`
+- `update`
+
+### `attachments`
+
+- `upload-info`
+- `add`
+- `get`
+- `delete`
+
+### `rules`
+
+- `list`
+- `create`
+- `update`
+- `delete`
+- `preview`
+- `update-order`
+- `delete-all`
+
+### `reports`
+
+- `cash-flow-dashboard`
+- `cash-flow-entities`
+- `cash-flow-timeframes`
+- `data`
+
+### `retail-sync`
+
+- `settings`
+- `get`
+- `list`
+- `create`
+- `create-bulk`
+- `start`
+- `complete`
+- `delete`
+- `match`
+- `unmatch`
+- `update-order`
+- `update-vendor-settings`
+
+## Layout
+
+- `src/monarch_cli/`: CLI implementation
+- `tests/`: mocked verification for payload shaping and CLI behavior
+- `skills/`: repo-local agent skills for recurring Monarch workflows
